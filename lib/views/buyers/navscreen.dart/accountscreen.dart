@@ -6,6 +6,7 @@ import 'package:winkle_final/views/buyers/Profile/helpcenter.dart';
 import 'package:winkle_final/views/buyers/Profile/setting_screen.dart';
 import 'package:winkle_final/views/buyers/auth/login_screen.dart';
 import 'package:winkle_final/views/buyers/inner_screens/order_screen.dart';
+import 'package:winkle_final/views/buyers/inner_screens/ratingview.dart';
 import 'package:winkle_final/views/buyers/navscreen.dart/cartscreen.dart';
 import '../inner_screens/edit_profile.dart';
 
@@ -123,129 +124,141 @@ class AccountScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  body: Column(
-                    children: [
-                      SizedBox(
-                        height: 25,
-                      ),
-                      Center(
-                        child: CircleAvatar(
-                          radius: 64,
-                          backgroundColor: Colors.yellow.shade900,
-                          backgroundImage: NetworkImage(data['profileImage']),
+                  body: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 25,
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          data['fullName'],
-                          style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
+                        Center(
+                          child: CircleAvatar(
+                            radius: 64,
+                            backgroundColor: Colors.yellow.shade900,
+                            backgroundImage: NetworkImage(data['profileImage']),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          data['email'],
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return EditPRofileScreen(
-                              userData: data,
-                            );
-                          }));
-                        },
-                        child: Container(
-                          height: 40,
-                          width: MediaQuery.of(context).size.width - 200,
-                          decoration: BoxDecoration(
-                            color: Colors.yellow.shade900,
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Center(
-                              child: Text(
-                            'Edit Profile',
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            data['fullName'],
                             style: TextStyle(
-                                color: Colors.white,
-                                letterSpacing: 4,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18),
-                          )),
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Divider(
-                          thickness: 2,
-                          color: Colors.grey,
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            data['email'],
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
-                      ),
-                      ListTile(
-                         onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return SettingsScreen();
-                          }));
-                        },
-                        leading: Icon(Icons.settings),
-                        title: Text('Settings'),
-                      ),
-                      // ListTile(
-                      //   leading: Icon(Icons.phone),
-                      //   title: Text('Phone'),
-                      // ),
-                       ListTile(
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return HelpCenterScreen();
-                          }));
-                        },
-                        leading: Icon(Icons.help_center),
-                        title: Text('Help Center'),
-                      ),
-                      ListTile(
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return CartScreen();
-                          }));
-                        },
-                        leading: Icon(Icons.shop),
-                        title: Text('Cart'),
-                      ),
-                      ListTile(
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return CustomerOrderScreen();
-                          }));
-                        },
-                        leading: Icon(CupertinoIcons.shopping_cart),
-                        title: Text('Order'),
-                      ),
-                      ListTile(
-                        onTap: () async {
-                          await _auth.signOut().whenComplete(() {
+                        InkWell(
+                          onTap: () {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
-                              return LoginScreen();
+                              return EditPRofileScreen(
+                                userData: data,
+                              );
                             }));
-                          });
-                        },
-                        leading: Icon(Icons.logout),
-                        title: Text('Logout'),
-                      ),
-                    ],
+                          },
+                          child: Container(
+                            height: 40,
+                            width: MediaQuery.of(context).size.width - 200,
+                            decoration: BoxDecoration(
+                              color: Colors.yellow.shade900,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Center(
+                                child: Text(
+                              'Edit Profile',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  letterSpacing: 4,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18),
+                            )),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Divider(
+                            thickness: 2,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        ListTile(
+                           onTap: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return SettingsScreen();
+                            }));
+                          },
+                          leading: Icon(Icons.settings),
+                          title: Text('Settings'),
+                        ),
+                        // ListTile(
+                        //   leading: Icon(Icons.phone),
+                        //   title: Text('Phone'),
+                        // ),
+                         ListTile(
+                          onTap: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return HelpCenterScreen();
+                            }));
+                          },
+                          leading: Icon(Icons.help_center),
+                          title: Text('Help Center'),
+                        ),
+                        ListTile(
+                          onTap: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return CartScreen();
+                            }));
+                          },
+                          leading: Icon(Icons.shop),
+                          title: Text('Cart'),
+                        ),
+                        ListTile(
+                          onTap: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return CustomerOrderScreen();
+                            }));
+                          },
+                          leading: Icon(CupertinoIcons.shopping_cart),
+                          title: Text('Order'),
+                        ),
+                        ListTile(
+                          onTap: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return RatingViewPage();
+                            }));
+                          },
+                          leading: Icon(CupertinoIcons.shopping_cart),
+                          title: Text('Review'),
+                        ),
+                        ListTile(
+                          onTap: () async {
+                            await _auth.signOut().whenComplete(() {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return LoginScreen();
+                              }));
+                            });
+                          },
+                          leading: Icon(Icons.logout),
+                          title: Text('Logout'),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               }

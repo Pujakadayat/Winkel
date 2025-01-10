@@ -102,6 +102,7 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   local_auth: ^2.3.0
   shared_preferences: ^2.2.3
+  custom_rating_bar: ^3.0.0
 
   
 dependency_overrides:

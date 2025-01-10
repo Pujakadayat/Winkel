@@ -17,7 +17,10 @@ import 'package:winkle_final/provider/cart_provider.dart';
 import 'package:winkle_final/provider/themeprovider.dart';
 
 import 'package:winkle_final/provider/product_provider.dart';
+import 'package:winkle_final/vendor/controller/vendor_login_screen.dart';
+import 'package:winkle_final/vendor/views/auth/vendor_auth_screen.dart';
 import 'package:winkle_final/views/buyers/auth/login_screen.dart';
+import 'package:winkle_final/views/buyers/productDetail/product_detail_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -87,9 +90,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         fontFamily: 'Brand-Bold',
-      ),
-home: LoginScreen(),
-  //  home:SettingScreen(),
+      ),  
+      // home: LoginScreen(),
+   home:VendorLoginScreen(),
+      // home: VendorAuthScreen(),
       //  // You can change this to CheckoutScreen() or another screen
 //  home:ReviewInputWidget(onSubmit: (String , int ) {  },),
       builder: EasyLoading.init(),
