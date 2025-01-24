@@ -26,6 +26,8 @@ class _ShippingAddressScreenState extends State<ShippingAddressScreen> {
 
   Map<String, dynamic>? userAddress;
   bool _isLoading = false;
+  
+  get keyboardType => null;
 
   @override
   void initState() {
@@ -221,6 +223,8 @@ class _ShippingAddressScreenState extends State<ShippingAddressScreen> {
         ),
       ),
       validator: validator,
+      autocorrect: true,  
+    textInputAction: TextInputAction.next,
     );
   }
 }

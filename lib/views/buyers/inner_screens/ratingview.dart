@@ -1,61 +1,18 @@
 
 import 'package:flutter/material.dart';
-// import 'package:smooth_star_rating/smooth_star_rating.dart';
-
-// class RatingViewPage extends StatefulWidget {
-//   final Function(String, int) onSubmit;
-
-//   const RatingViewPage({required this.onSubmit, Key? key}) : super(key: key);
-
-//   @override
-//   _RatingViewPageState createState() => _RatingViewPageState();
-// }
-
-// class _RatingViewPageState extends State<RatingViewPage> {
-//   final _controller = TextEditingController();
-//   int _rating = 5;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: [
-//         TextField(
-//           controller: _controller,
-//           decoration: InputDecoration(hintText: 'Write your review...'),
-//         ),
-//         Slider(
-//           value: _rating.toDouble(),
-//           min: 1,
-//           max: 5,
-//           divisions: 4,
-//           label: '$_rating',
-//           onChanged: (value) {
-//             setState(() {
-//               _rating = value.toInt();
-//             });
-//           },
-//         ),
-//         ElevatedButton(
-//           onPressed: () {
-//             widget.onSubmit(_controller.text, _rating);
-//             _controller.clear();
-//           },
-//           child: Text('Submit Review'),
-//         ),
-//       ],
-//     );
-//   }
-// }
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart'; // Import the package
+
 class RatingViewPage extends StatelessWidget {
   final Stream<QuerySnapshot> _deliveredOrdersStream = FirebaseFirestore.instance
       .collection('orders')
       .where('buyerId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-      .where('delivered', isEqualTo: true) // Only delivered orders
+      .where('delivered', isEqualTo: true)
       .snapshots();
 
   @override
@@ -108,49 +65,91 @@ class RatingViewPage extends StatelessWidget {
     );
   }
 
-  void _showRatingDialog(BuildContext context, String orderId) {
-    double _rating = 3.0;
+  
+void _showRatingDialog(BuildContext context, String orderId) {
+  double _rating = 3.0;
+  TextEditingController _reviewController = TextEditingController();
 
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Rate the Product'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('Please rate your experience:'),
-              Slider(
-                value: _rating,
-                onChanged: (value) {
-                  _rating = value;
-                },
-                min: 1.0,
-                max: 5.0,
-                divisions: 4,
-                label: _rating.toString(),
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text('Rate and Review the Product'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text('Please rate your experience:'),
+            RatingBar.builder(
+              initialRating: _rating,
+              minRating: 0,
+              itemSize: 40,
+              itemCount: 5,
+              direction: Axis.horizontal,
+              allowHalfRating: false,
+              itemBuilder: (context, _) => const Icon(
+                Icons.star,
+                color: Colors.amber,
               ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
+              onRatingUpdate: (rating) {
+                _rating = rating;
               },
-              child: const Text('Cancel'),
             ),
-            ElevatedButton(
-              onPressed: () {
-                FirebaseFirestore.instance.collection('orders').doc(orderId).update({
-                  'rating': _rating,
-                });
-                Navigator.pop(context);
-              },
-              child: const Text('Submit'),
+            const SizedBox(height: 16),
+            const Text('Write your review:'),
+            TextField(
+              controller: _reviewController,
+              decoration: InputDecoration(
+                hintText: 'Your review here...',
+                border: OutlineInputBorder(),
+              ),
+              maxLines: 3,
             ),
           ],
-        );
-      },
-    );
-  }
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              // Add rating and review to Firestore
+              try {
+                await FirebaseFirestore.instance
+                    .collection('orders')
+                    .doc(orderId)
+                    .update({
+                  'rating': _rating,
+                  'review': 
+                  _reviewController.text,
+                });
+
+                // Show success message after review is submitted
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Thank you for your review!'),
+                    backgroundColor: Color.fromARGB(255, 219, 15, 11),
+                  ),
+                );
+              } catch (e) {
+                // Show error message if something goes wrong
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Failed to submit your review: $e'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
+
+              Navigator.pop(context); // Close the dialog after submission
+            },
+            child: const Text('Submit'),
+          ),
+        ],
+      );
+    },
+  );
+}
 }

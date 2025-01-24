@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:winkle_final/delivery/deliverychatpage.dart';
 import 'package:winkle_final/delivery/firestoreservice.dart';
 import 'package:winkle_final/views/buyers/inner_screens/deliverychatapp.dart';
 
@@ -65,7 +66,7 @@ class DeliveryBoyListScreen extends StatelessWidget {
                             SizedBox(width: 5),
                             Text(
                               "$rating (${ratingCount} ratings)",
-                              style: TextStyle(fontSize: 16),
+                              style: TextStyle(fontSize: 13),
                             ),
                           ],
                         ),
@@ -77,12 +78,9 @@ class DeliveryBoyListScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                            ChatScreen(deliveryPersonName: name)
-                            //  DeliveryChatPage(
-                            //   deliveryBoyName:
-                            //       name, // Pass selected delivery boy's name or other data
-                            // ),
+                            builder: (context) => DeliveryChatPage(deliveryBoyName: '',
+                     
+                            ),
                           ),
                         );
                       },

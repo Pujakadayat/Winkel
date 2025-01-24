@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:winkle_final/controllers/auth_controller.dart';
 import 'package:winkle_final/utils/show_snackBar.dart';
 import 'package:winkle_final/vendor/vendor_screens/main_vendor_screen.dart';
+import 'package:winkle_final/vendor/views/auth/vendor_auth_screen.dart';
 import 'package:winkle_final/vendor/views/auth/vendor_registeration_screen.dart';
 
 
@@ -19,29 +20,56 @@ class _VendorLoginScreenState extends State<VendorLoginScreen> {
   late String password;
 
   bool _isLoading = false;
+  
+_loginUsers() async {
+  setState(() {
+    _isLoading = true;
+  });
 
-  _loginUsers() async {
-    setState(() {
-      _isLoading = true;
-    });
-    if (_formKey.currentState!.validate()) {
-      String res = await _authcontroller.loginUsers(email, password);
+  if (_formKey.currentState!.validate()) {
+    String res = await _authcontroller.loginUsers(email, password);
 
-      if (res == 'success') {
-        return Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (BuildContext context) {
-          return MainVendorScreen();
-        }));
-      } else {
-        setState(() {
-          _isLoading = false;
-        });
-        return snowSnack(context, res);
-      }
+    if (res == 'success') {
+      // Navigate to the main vendor screen on successful login
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return MainVendorScreen();
+      }));
     } else {
-      return showSnack(context, 'Please fields must not be empty');
+      setState(() {
+        _isLoading = false;
+      });
+      showSnack(context, res); // Show the error message returned from `loginUsers()`
     }
+  } else {
+    setState(() {
+      _isLoading = false;
+    });
+    showSnack(context, 'Please fill out all fields.');
   }
+}
+
+  // _loginUsers() async {
+  //   setState(() {
+  //     _isLoading = true;
+  //   });
+  //   if (_formKey.currentState!.validate()) {
+  //     String res = await _authcontroller.loginUsers(email, password);
+
+  //     if (res == 'success') {
+  //       return Navigator.pushReplacement(context,
+  //           MaterialPageRoute(builder: (BuildContext context) {
+  //         return MainVendorScreen();
+  //       }));
+  //     } else {
+  //       setState(() {
+  //         _isLoading = false;
+  //       });
+  //       return snowSnack(context, res);
+  //     }
+  //   } else {
+  //     return showSnack(context, 'Please fields must not be empty');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -149,12 +177,35 @@ class _VendorLoginScreenState extends State<VendorLoginScreen> {
                   )
                 ],
               ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     Text('Already have An Account')
-              //   ],
-              // )
+             
+               SizedBox(
+                height: 10,
+              ),
+               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Register yourself with winkle'),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: ((context) {
+                        return VendorAuthScreen();
+                      })));
+                    },
+                    child: Center(
+                      child: Text(
+                        'Click here',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          // letterSpacing: 4,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ],
           ),
         ),

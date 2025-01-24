@@ -7,6 +7,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:winkle_final/vendor/controller/vendor_register_controller.dart';
 import 'package:winkle_final/vendor/vendor_screens/landing_screen.dart';
+import 'package:winkle_final/vendor/vendor_screens/main_vendor_screen.dart';
 
 class VendorRegistrationScreen extends StatefulWidget {
   @override
@@ -56,28 +57,6 @@ class _VendorRegistrationScreenState extends State<VendorRegistrationScreen> {
     'YES',
     'NO',
   ];
-
-  // _saveVendorDetail() async {
-  //   EasyLoading.show(status: 'PLEASE WAIT');
-  //   if (_formKey.currentState!.validate()) {
-  //     await _vendorController
-  //         .registerVendor(bussinessName, email, phoneNumber, countryValue,
-  //             stateValue, cityValue, _taxStatus!, taxNumber, _image)
-  //         .whenComplete(() {
-  //       EasyLoading.dismiss();
-
-  //       setState(() {
-  //         _formKey.currentState!.reset();
-
-  //         _image = null;
-  //       });
-  //     });
-  //   } else {
-  //     print('bad');
-
-  //     EasyLoading.dismiss();
-  //   }
-  // }
 _saveVendorDetail() async {
   EasyLoading.show(status: 'PLEASE WAIT');
   if (_formKey.currentState!.validate()) {
@@ -96,7 +75,8 @@ _saveVendorDetail() async {
       // Navigate to the landing screen
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => LandingScreen()),
+        MaterialPageRoute(builder: (context) =>MainVendorScreen()),
+      
       );
     });
   } else {

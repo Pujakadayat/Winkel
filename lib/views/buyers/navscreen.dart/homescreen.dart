@@ -11,15 +11,17 @@ class Homescreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        WelcomeText(),
-    SizedBox(height: 10,),
-        SearchInputWidget (),
-        BannerWidget(),
-       CategoryText()
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          WelcomeText(),
+      SizedBox(height: 10,),
+          SearchInputWidget (),
+          BannerWidget(),
+         CategoryText()
+        ],
+      ),
     );
   }
   }

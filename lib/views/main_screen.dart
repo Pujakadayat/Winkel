@@ -175,7 +175,7 @@ class _MainScreenState extends State<MainScreen> {
   List<Widget> _pages =[
 Homescreen(),
 CategoryScreen(),
-StoreScreen.StoreScreen(storeName: '',),
+StoreScreen.StoreScreen(),
 CartScreen(),
  SearchScreen(),
 AccountScreen(),

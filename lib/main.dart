@@ -2,6 +2,7 @@
 import 'dart:io';
 
 
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,6 +14,7 @@ import 'package:get/instance_manager.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:winkle_final/controllers/auth_controller.dart';
+import 'package:winkle_final/mainloginscreen.dart';
 import 'package:winkle_final/provider/cart_provider.dart';
 import 'package:winkle_final/provider/themeprovider.dart';
 
@@ -20,7 +22,12 @@ import 'package:winkle_final/provider/product_provider.dart';
 import 'package:winkle_final/vendor/controller/vendor_login_screen.dart';
 import 'package:winkle_final/vendor/views/auth/vendor_auth_screen.dart';
 import 'package:winkle_final/views/buyers/auth/login_screen.dart';
+import 'package:winkle_final/views/buyers/inner_screens/deliverychatapp.dart';
+import 'package:winkle_final/views/buyers/inner_screens/filterscreen.dart';
+import 'package:winkle_final/views/buyers/inner_screens/shipping_addressscreen.dart';
+import 'package:winkle_final/views/buyers/navscreen.dart/widgets/main_products_widget.dart';
 import 'package:winkle_final/views/buyers/productDetail/product_detail_screen.dart';
+import 'package:winkle_final/views/main_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,18 +52,6 @@ void main() async {
     await Firebase.initializeApp(); // For other platforms like iOS
   }
 
-  // runApp(
-  //   riverpod.ProviderScope(  // Wrap your app with ProviderScope first for Riverpod
-  //     child: MultiProvider(  // Then use MultiProvider for the 'provider' package
-  //       providers: [
-  //         ChangeNotifierProvider(create: (_) => ProductProvider()),
-  //         ChangeNotifierProvider(create: (_) => CartProvider()),
-  //          ChangeNotifierProvider(create: (_) => ThemeProvider(applicationcontext: context)),
-  //       ],
-  //       child: const MyApp(),
-  //     ),
-  //   ),
-  // );
   runApp(
   riverpod.ProviderScope(
     child: Builder(
@@ -75,29 +70,33 @@ void main() async {
 );
 
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-    );
+        SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        fontFamily: 'Brand-Bold',
-      ),  
-      // home: LoginScreen(),
-   home:VendorLoginScreen(),
-      // home: VendorAuthScreen(),
-      //  // You can change this to CheckoutScreen() or another screen
-//  home:ReviewInputWidget(onSubmit: (String , int ) {  },),
+
+      home: AnimatedSplashScreen(
+        duration: 3000,
+        splash: SizedBox(
+          width: 400, 
+          height: 400,
+          
+          child: Image.asset('lib/assets/W1.jpg'), // Replace with your image path
+        ),
+        nextScreen: //MainLoginScreen(), //VendorAuthScreen(),
+            //MainloginScreen(),
+            MainLoginScreen(),
+        //MainScreen(),
+        splashTransition: SplashTransition.fadeTransition,
+        backgroundColor: const Color.fromARGB(255, 199, 231, 247),
+      ),
       builder: EasyLoading.init(),
     );
   }
-
 }
